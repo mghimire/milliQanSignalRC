@@ -8,6 +8,7 @@ import csv
 
 starttime	= time.time()
 runtime 	= 0.5	#in hours
+timeres		= 2		#in seconds
 
 def main():
 	sds = vxi11.Instrument("192.168.1.22") #read instrument IP address based on lxi discover
@@ -33,7 +34,7 @@ def main():
 	while (time.time() - starttime)/(60*60) <= runtime:
 		updatedtime = time.time()
 		
-		sds.timeout = 2000 #default value is 2000(2s)
+		sds.timeout = timeres*1000 #default value is 2000(2s)
 		sds.chunk_size = 20*1024*1024 #default value is 20*1024(20k bytes)
 		sds.write("c1:wf? dat2") #get data from channel 1
 		recv1 = list(sds.read_raw())[15:] #set to list, getting rid of header
